@@ -1,0 +1,14 @@
+Owner:
+	Azus
+
+Administrator:
+	Berbert
+	Wanodybo
+
+Moderator:
+	Kumor
+	Reaper of Agony
+
+Operator:
+	Haszysz
+	Eddit

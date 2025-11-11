@@ -1,0 +1,6 @@
+speed=5000
+
+# Colors for ranks.
+col_Owner=2
+col_Moderator=3
+col_default=1

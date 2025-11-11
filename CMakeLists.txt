@@ -12,7 +12,7 @@ file(GLOB promsimSrc
 	"build/src/promsim/*.cpp"
 )
 
-add_executable(${CMAKE_PROJECT_NAME} WIN32 ${promsimSrc})
+add_executable(${CMAKE_PROJECT_NAME} ${promsimSrc})
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${CMAKE_PROJECT_NAME})
 
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC
