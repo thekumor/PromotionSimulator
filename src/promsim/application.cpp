@@ -32,6 +32,14 @@ namespace promsim
     {
         std::int32_t defaultColor = GetVariableAsNumber("col_default");
 
+        SetTextColor(defaultColor);
+        std::cout << "19/04/2001" << std::endl;
+        
+        for (std::int32_t i = 0; i < 30; i++)
+            std::cout << "-";
+
+        std::cout << std::endl;
+
         for (auto& r : m_Users.first)
         {
             std::int32_t rankColor = GetVariableAsNumber(std::string("col_") + r.Name);

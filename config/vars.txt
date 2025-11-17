@@ -1,6 +1,8 @@
-speed=5000
+speed=1000
 
 # Colors for ranks.
-col_Owner=2
-col_Moderator=3
-col_default=1
+col_Owner=4
+col_Moderator=14
+col_Administrator=9
+col_Operator=13
+col_default=7
