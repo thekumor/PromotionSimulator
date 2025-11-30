@@ -2,96 +2,99 @@
 
 namespace promsim
 {
-    
-    Application::Application(const std::string& title, const Config& config)
-        : m_Title(title), m_Config(config)
-    {
-    }
 
-    int Application::Run()
-    {
-        m_Users = ParseUsers(m_Config.Users);
-        m_Vars = ParseVars(m_Config.Vars);
+	Application::Application(const std::string& title, const Config& config)
+		: m_Title(title), m_Config(config)
+	{
+	}
 
-        // Config variables
-        std::int32_t waitTime = GetVariableAsNumber("speed");
+	int Application::Run()
+	{
+		m_Users = ParseUsers(m_Config.Users);
+		m_Vars = ParseVars(m_Config.Vars);
 
-        bool isRunning = true;
+		std::int32_t waitTime = GetVariableAsNumber("speed");
 
-        while (isRunning)
-        {
-            Clear();
-            Display();
-            Wait(waitTime);
-        }
+		m_Date = Date(2025, 11, 20);
+		bool isRunning = true;
 
-        return 0;
-    }
+		while (isRunning)
+		{
+			Clear();
+			Display();
+			Wait(waitTime);
 
-    void Application::Display()
-    {
-        std::int32_t defaultColor = GetVariableAsNumber("col_default");
+			std::uint32_t dayProgress = rand() % GetVariableAsNumber("maxLeap") + GetVariableAsNumber("minLeap");
+			m_Date.Fastforward(dayProgress);
+		}
 
-        SetTextColor(defaultColor);
-        std::cout << "19/04/2001" << std::endl;
-        
-        for (std::int32_t i = 0; i < 30; i++)
-            std::cout << "-";
+		return 0;
+	}
 
-        std::cout << std::endl;
+	void Application::Display()
+	{
+		std::int32_t defaultColor = GetVariableAsNumber("col_default");
 
-        for (auto& r : m_Users.first)
-        {
-            std::int32_t rankColor = GetVariableAsNumber(std::string("col_") + r.Name);
-            SetTextColor(rankColor == PROMSIM_INVALID_VAR_NUM ? PROMSIM_DEFAULT_COLOR : rankColor);
-            std::cout << r.Name << ":" << std::endl;
+		SetTextColor(defaultColor);
+		std::cout << m_Date.ToString("Y-M-D") << std::endl;
 
-            for (auto& u : m_Users.second)
-            {
-                if (u.RankID == r.ID)
+		for (std::int32_t i = 0; i < 30; i++)
+			std::cout << "-";
+
+		std::cout << std::endl;
+
+		for (auto& r : m_Users.first)
+		{
+			std::int32_t rankColor = GetVariableAsNumber(std::string("col_") + r.Name);
+			SetTextColor(rankColor == PROMSIM_INVALID_VAR_NUM ? PROMSIM_DEFAULT_COLOR : rankColor);
+			std::cout << r.Name << ":" << std::endl;
+
+			for (auto& u : m_Users.second)
+			{
+				if (u.RankID == r.ID)
 				{
-                    SetTextColor(defaultColor == PROMSIM_INVALID_VAR_NUM ? PROMSIM_DEFAULT_COLOR : defaultColor);
-                    std::cout << "\t" << u.Name << std::endl;
-                }
-            }
+					SetTextColor(defaultColor == PROMSIM_INVALID_VAR_NUM ? PROMSIM_DEFAULT_COLOR : defaultColor);
+					std::cout << "\t" << u.Name << std::endl;
+				}
+			}
 
-            std::cout << std::endl;
-        }
-    }
+			std::cout << std::endl;
+		}
+	}
 
-    void Application::Clear()
-    {
-        std::system("cls");
-    }
+	void Application::Clear()
+	{
+		std::system("cls");
+	}
 
-    void Application::Wait(std::int32_t amount)
-    {
-        Sleep(amount);
-    }
+	void Application::Wait(std::int32_t amount)
+	{
+		Sleep(amount);
+	}
 
-    std::string Application::GetVariable(const std::string& name)
-    {
-        for (auto& k : m_Vars)
-            if (k.Name == name)
-                return k.Content;
+	std::string Application::GetVariable(const std::string& name)
+	{
+		for (auto& k : m_Vars)
+			if (k.Name == name)
+				return k.Content;
 
-        return PROMSIM_INVALID_VAR_STR;
-    }
+		return PROMSIM_INVALID_VAR_STR;
+	}
 
-    std::int32_t Application::GetVariableAsNumber(const std::string& name)
-    {
-        auto var = GetVariable(name);
+	std::int32_t Application::GetVariableAsNumber(const std::string& name)
+	{
+		auto var = GetVariable(name);
 
-        if (var != PROMSIM_INVALID_VAR_STR)
-            return atoi(var.c_str());
+		if (var != PROMSIM_INVALID_VAR_STR)
+			return atoi(var.c_str());
 
-        return PROMSIM_INVALID_VAR_NUM;
-    }
+		return PROMSIM_INVALID_VAR_NUM;
+	}
 
-    BOOL Application::SetTextColor(std::int32_t value)
-    {
-        HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
-        return SetConsoleTextAttribute(handle, value);
-    }
+	BOOL Application::SetTextColor(std::int32_t value)
+	{
+		HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+		return SetConsoleTextAttribute(handle, value);
+	}
 
 }

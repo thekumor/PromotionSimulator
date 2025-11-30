@@ -40,6 +40,7 @@ namespace promsim
 		std::string Name, Content;
 	};
 
+	std::optional<std::string> ReadFile(const std::string& path);
 	Config ReadFiles(const Config& paths);
 	std::vector<Var> ParseVars(const std::string& input);
 	std::pair<std::vector<Rank>, std::vector<User>> ParseUsers(const std::string& input);

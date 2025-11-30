@@ -2,6 +2,7 @@
 
 // Promotion Simulator
 #include <promsim/config.h>
+#include <promsim/date.h>
 
 // STL
 #include <utility>
@@ -33,6 +34,7 @@ namespace promsim
 	private:
 		std::string m_Title;
 		Config m_Config;
+		Date m_Date;
 		std::pair<std::vector<Rank>, std::vector<User>> m_Users;
 		std::vector<Var> m_Vars;
 	};

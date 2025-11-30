@@ -6,10 +6,17 @@
 // 
 // ================================================
 
+// STL
+#include <cstdlib>
+#include <ctime>
+
+// Promotion Simulator
 #include <promsim/application.h>
 
 int main()
 {
+	srand(time(nullptr));
+
 	promsim::Config paths;
 	paths.Users = "config/users.txt";
 	paths.Vars = "config/vars.txt";
