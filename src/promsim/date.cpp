@@ -8,10 +8,10 @@ namespace promsim
 	{
 	}
 
-	std::string Date::ToString(const char* fmt) const
+	std::wstring Date::ToString(const wchar_t* fmt) const
 	{
-		std::string str;
-		const char* c = fmt;
+		std::wstring str;
+		const wchar_t* c = fmt;
 
 		while (*c != '\0')
 		{
@@ -19,17 +19,17 @@ namespace promsim
 			{
 				case 'Y':
 				{
-					str += std::to_string(static_cast<std::uint16_t>(Year));
+					str += std::to_wstring(static_cast<std::uint16_t>(Year));
 				} break;
 
 				case 'M':
 				{
-					str += std::to_string(static_cast<std::uint8_t>(Month));
+					str += std::to_wstring(static_cast<std::uint8_t>(Month));
 				} break;
 
 				case 'D':
 				{
-					str += std::to_string(static_cast<std::uint8_t>(Day));
+					str += std::to_wstring(static_cast<std::uint8_t>(Day));
 				} break;
 
 				default:

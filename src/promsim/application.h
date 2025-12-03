@@ -7,6 +7,7 @@
 // STL
 #include <utility>
 #include <vector>
+#include <string>
 
 // WinAPI
 #include <windows.h>
@@ -27,8 +28,10 @@ namespace promsim
 		void Display();
 		void Clear();
 		void Wait(std::int32_t amount);
-		std::string GetVariable(const std::string& name);
-		std::int32_t GetVariableAsNumber(const std::string& name);
+		std::wstring GetVariable(const std::wstring& name);
+		std::int32_t GetVariableAsNumber(const std::wstring& name);
+		std::vector<std::wstring> GetVariables(const std::wstring& name);
+		std::vector<std::int32_t> GetVariablesAsNumbers(const std::wstring& name);
 		BOOL SetTextColor(std::int32_t value);
 
 	private:

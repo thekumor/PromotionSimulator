@@ -3,17 +3,20 @@
 namespace promsim
 {
 
-    std::optional<std::string> ReadFile(const std::string& path)
+    std::optional<std::wstring> ReadFile(const std::wstring& path)
     {
-        std::fstream file(path.c_str(), std::ios::in);
+        std::wfstream file(path.c_str(), std::wios::in);
         if (!file.is_open())
         {
             return {};
         }
 
-        std::string content, line;
+		static const std::locale s_Utf8Locale(file.getloc(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::codecvt_mode::little_endian>());
+        file.imbue(s_Utf8Locale);
+
+        std::wstring content, line;
         while (std::getline(file, line))
-            content += line + "\n";
+            content += line + L"\n";
 
         file.close();
 
@@ -31,24 +34,24 @@ namespace promsim
         return Config(users.value(), vars.value());
     }
 
-    std::vector<Var> ParseVars(const std::string& input)
+    std::vector<Var> ParseVars(const std::wstring& input)
     {
         std::vector<Var> vars = {};
 
-        std::string line;
-        size_t prevPos = 0, pos = input.find('\n');
-        while (pos != std::string::npos)
+        std::wstring line;
+		size_t prevPos = 0, pos = input.find('\n');
+		while (pos != std::wstring::npos)
         {
-            std::string line = input.substr(prevPos, pos - prevPos);
+            std::wstring line = input.substr(prevPos, pos - prevPos);
 
             // Check to see if it's not a comment.
             if (line[0] != '#')
             {
                 size_t equals = line.find('=');
-                if (equals != std::string::npos)
+                if (equals != std::wstring::npos)
                 {
-                    std::string left = line.substr(0, equals);
-                    std::string right = line.substr(equals + 1, line.size() - equals + 1);
+                    std::wstring left = line.substr(0, equals);
+                    std::wstring right = line.substr(equals + 1, line.size() - equals + 1);
 
                     Var var;
                     var.Name = left;
@@ -68,26 +71,26 @@ namespace promsim
     static std::uint8_t s_RankID = 0;
     static std::uint8_t s_UserID = 0;
 
-    std::pair<std::vector<Rank>, std::vector<User>> ParseUsers(const std::string& input)
+    std::pair<std::vector<Rank>, std::vector<User>> ParseUsers(const std::wstring& input)
 	{
 		std::vector<User> users = {};
 		std::vector<Rank> ranks = {};
 
-        std::string line;
+        std::wstring line;
         size_t prevPos = 0, pos = input.find('\n');
 
 		while (pos != std::string::npos)
 		{
-            std::string line = input.substr(prevPos, pos - prevPos);
+            std::wstring line = input.substr(prevPos, pos - prevPos);
             
             // Check to see if it's not a comment.
             if (line[0] != '#')
             {
                 // Check if it's user (has a tab at the start).
                 size_t tab = line.find('\t');
-                if (tab != std::string::npos)
+                if (tab != std::wstring::npos)
                 {
-                    std::string name = line.substr(1, line.size() - 1);
+                    std::wstring name = line.substr(1, line.size() - 1);
                     User user;
                     user.Name = name;
                     user.ID = ++s_UserID;
@@ -99,7 +102,7 @@ namespace promsim
                 else
                 {
                     size_t colon = line.find(':');
-                    if (colon != std::string::npos)
+                    if (colon != std::wstring::npos)
                     {
                         Rank rank;
                         rank.Name = line.substr(0, line.size() - 1);
@@ -117,7 +120,7 @@ namespace promsim
         return std::pair<std::vector<Rank>, std::vector<User>>(ranks, users);
 	}
 
-    Config::Config(const std::string& users, const std::string& vars)
+    Config::Config(const std::wstring& users, const std::wstring& vars)
         : Users(users), Vars(vars)
     {
     }

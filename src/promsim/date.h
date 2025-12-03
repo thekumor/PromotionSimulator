@@ -12,7 +12,7 @@ namespace promsim
 		Date(std::uint16_t year, std::uint8_t month, std::uint8_t day);
 		Date() = default;
 
-		std::string ToString(const char* fmt) const;
+		std::wstring ToString(const wchar_t* fmt) const;
 		void Progress();
 		
 		// A rather quick one, but don't kill an ant with a sledgehammer.

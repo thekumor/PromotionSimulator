@@ -8,41 +8,45 @@
 #include <iostream>
 #include <vector>
 #include <utility>
+#include <io.h>
+#include <fcntl.h>
+#include <codecvt>
 
 #define PROMSIM_INVALID_VAR_NUM -5432901235
-#define PROMSIM_INVALID_VAR_STR "-5432901235"
+#define PROMSIM_INVALID_VAR_STR L"-5432901235"
 
 namespace promsim
 {
 
 	struct Config
 	{
-		std::string Users, Vars;
+		std::wstring Users, Vars;
 
-		Config(const std::string& users, const std::string& vars);
+		Config(const std::wstring& users, const std::wstring& vars);
 		Config() = default;
 	};
 
 	struct Rank
 	{
-		std::string Name;
+		std::wstring Name;
 		std::uint8_t ID;
 	};
 
 	struct User
 	{
-		std::string Name;
+		std::wstring Name;
 		std::uint8_t ID, RankID;
 	};
 
 	struct Var
 	{
-		std::string Name, Content;
+		std::wstring Name;
+		std::wstring Content;
 	};
 
-	std::optional<std::string> ReadFile(const std::string& path);
+	std::optional<std::wstring> ReadFile(const std::wstring& path);
 	Config ReadFiles(const Config& paths);
-	std::vector<Var> ParseVars(const std::string& input);
-	std::pair<std::vector<Rank>, std::vector<User>> ParseUsers(const std::string& input);
+	std::vector<Var> ParseVars(const std::wstring& input);
+	std::pair<std::vector<Rank>, std::vector<User>> ParseUsers(const std::wstring& input);
 
 }
