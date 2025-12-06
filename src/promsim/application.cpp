@@ -14,7 +14,6 @@ namespace promsim
 		m_Vars = ParseVars(m_Config.Vars);
 
 		std::int32_t waitTime = GetVariableAsNumber(L"speed");
-		std::vector<std::wstring> demotionReasons = GetVariables(L"dem_");
 
 		m_Date = Date(2025, 11, 20);
 		bool isRunning = true;
