@@ -77,12 +77,19 @@ namespace promsim
 		std::vector<Rank> ranks = {};
 
         std::wstring line;
+        std::uint32_t lineNumber = 0;
         size_t prevPos = 0, pos = input.find('\n');
 
 		while (pos != std::string::npos)
 		{
             std::wstring line = input.substr(prevPos, pos - prevPos);
             
+            // Get rid of some weird character in the beginning of a file.
+            if (lineNumber == 0)
+                line = line.substr(1, line.size() - 1);
+
+            lineNumber++;
+
             // Check to see if it's not a comment.
             if (line[0] != '#')
             {
@@ -93,8 +100,8 @@ namespace promsim
                     std::wstring name = line.substr(1, line.size() - 1);
                     User user;
                     user.Name = name;
-                    user.ID = ++s_UserID;
-                    user.RankID = s_RankID;
+                    user.ID = s_UserID++;
+                    user.RankID = s_RankID - 1;
 
                     users.push_back(user);
                 }
@@ -106,7 +113,7 @@ namespace promsim
                     {
                         Rank rank;
                         rank.Name = line.substr(0, line.size() - 1);
-                        rank.ID = ++s_RankID;
+                        rank.ID = s_RankID++;
 
                         ranks.push_back(rank);
                     }
